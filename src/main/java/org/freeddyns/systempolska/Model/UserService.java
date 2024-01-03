@@ -4,11 +4,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import org.springframework.data.domain.Page;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.reactive.function.client.WebClient;
+
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
@@ -18,13 +18,12 @@ import java.util.List;
 
 @Service
 public class UserService {
-    private final WebClient webClient;
+
     private final UserRepository repository;
     private final UserMapper mapper;
     private final int PAGE_SIZE = 20;
 
-    public UserService(WebClient.Builder webClient, UserRepository repository, UserMapper mapper) {
-        this.webClient = webClient.build();
+    public UserService( UserRepository repository, UserMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
@@ -51,19 +50,23 @@ public class UserService {
     public List<ReadUserDto> getUsersWithPaginationAndSortingAndSearch(
             String searchKeyword, String sortBy,int page) {
         PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
+        if (sortBy == null){
+            sortBy = "surname";
+
+        }
         return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, sortBy, pageRequest).getContent()
                 .stream()
                  .map(mapper::map)
                  .toList();
     }
 
-    Flux<List<ReadUserDto>>findAll(int page){
+   List<ReadUserDto>findAll(int page){
         PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
-        List<User> all = repository.findAllBy(pageRequest).getContent();
+      return   repository.findAllBy(pageRequest).getContent()
+              .stream()
+              .map(mapper::map)
+              .toList();
 
-        return Flux.fromIterable(all)
-                .map(mapper::map)
-                .collectList()
-                .flux();
+
     }
 }

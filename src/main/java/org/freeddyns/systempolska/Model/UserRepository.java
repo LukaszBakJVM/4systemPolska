@@ -28,11 +28,8 @@ public interface UserRepository extends PagingAndSortingRepository<User,Long> {
             "OR lower(u.login) LIKE lower(concat('%', :searchKeyword, '%')) " +
             "ORDER BY " +
             "CASE WHEN :sortBy = 'name' THEN u.name END ASC, " +
-            "CASE WHEN :sortBy = 'name_desc' THEN u.name END DESC, " +
             "CASE WHEN :sortBy = 'surname' THEN u.surname END ASC, " +
-            "CASE WHEN :sortBy = 'surname_desc' THEN u.surname END DESC, " +
-            "CASE WHEN :sortBy = 'login' THEN u.login END ASC, " +
-            "CASE WHEN :sortBy = 'login_desc' THEN u.login END DESC")
+            "CASE WHEN :sortBy = 'login' THEN u.login END ASC NULLS LAST")
     Page<User> findAllWithPaginationAndSortingAndSearch(
             @Param("searchKeyword") String searchKeyword,
             @Param("sortBy") String sortBy,

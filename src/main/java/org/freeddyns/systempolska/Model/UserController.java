@@ -21,15 +21,14 @@ public class UserController {
     public Flux<WriteUserDto> uploadUsers(@RequestParam("file") MultipartFile file) {
         return service.saveUsersFromFile(file);
     }
-    @GetMapping("/ooooo")
-    Flux<List<ReadUserDto>> find(@RequestParam(defaultValue = "0") int page){
-        return service.findAll(page);
 
-    }
     @GetMapping()
-    ResponseEntity<List<ReadUserDto>>readUserSorted(@RequestParam(defaultValue = "") String searchKeyword,
-                                                    @RequestParam(defaultValue = "name") String sortBy,
-                                                    @RequestParam(defaultValue = "0") int page){
+    ResponseEntity<List<ReadUserDto>> readUserSorted(@RequestParam(required = false) String searchKeyword,
+                                                     @RequestParam(required = false) String sortBy,
+                                                     @RequestParam(defaultValue = "0") int page){
+        if (searchKeyword == null){
+            return ResponseEntity.ok(service.findAll(page));
+        }
         return ResponseEntity.ok(service.getUsersWithPaginationAndSortingAndSearch(searchKeyword,sortBy,page));
     }
 
