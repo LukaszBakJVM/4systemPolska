@@ -1,19 +1,14 @@
 package org.freeddyns.systempolska.Model;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-
-
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-
 import org.freeddyns.systempolska.ColumnName;
 import org.freeddyns.systempolska.Exception.WrongFileFormatException;
 import org.freeddyns.systempolska.Model.Dto.ReadUserDto;
 import org.freeddyns.systempolska.Model.Dto.WriteUserDto;
 import org.springframework.data.domain.PageRequest;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
@@ -70,7 +65,7 @@ public class UserService {
                 .toList();
     }
 
-    ///sortowanie all
+
     List<ReadUserDto> getUsersWithPaginationAndSorting(String sortBy, int page) {
         PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
         return repository.findAndSortedBy(sortBy, pageRequest).stream().map(mapper::map).

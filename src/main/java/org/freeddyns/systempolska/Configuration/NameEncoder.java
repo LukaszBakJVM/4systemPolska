@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 @Configuration
 public class NameEncoder {
 
-    public  String encode(String password) {
+    public String encode(String password) {
         try {
 
             MessageDigest md = MessageDigest.getInstance("MD5");

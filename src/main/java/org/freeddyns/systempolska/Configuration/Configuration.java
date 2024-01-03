@@ -1,9 +1,7 @@
 package org.freeddyns.systempolska.Configuration;
 
 
-
 import org.springframework.context.annotation.Bean;
-
 
 
 @org.springframework.context.annotation.Configuration

@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
     @GetMapping("/")
-    String index(){
+    String index() {
         return "index.html";
     }
+
     @GetMapping("/upload")
-    String upload(){
+    String upload() {
         return "upload.html";
     }
-
 
 
 }

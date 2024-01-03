@@ -23,12 +23,12 @@ public class UserController {
     ResponseEntity<List<ReadUserDto>> readUserSorted(@RequestParam(required = false) String searchKeyword,
                                                      @RequestParam(required = false) String sortBy,
                                                      @RequestParam(defaultValue = "0") int page) {
-       if (searchKeyword == null) {
-           return ResponseEntity.ok(service.getUsersWithPaginationAndSorting(sortBy, page));
+        if (searchKeyword == null) {
+            return ResponseEntity.ok(service.getUsersWithPaginationAndSorting(sortBy, page));
         }
 
 
-        return ResponseEntity.ok(service.getUsersWithPaginationAndSortingAndSearch(searchKeyword,sortBy,page));
+        return ResponseEntity.ok(service.getUsersWithPaginationAndSortingAndSearch(searchKeyword, sortBy, page));
     }
 
     @GetMapping("/colums")

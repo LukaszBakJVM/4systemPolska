@@ -15,7 +15,7 @@ public class UserMapper {
         this.str = str;
     }
 
-    Users map (WriteUserDto dto){
+    Users map(WriteUserDto dto) {
         Users user = new Users();
         user.setName(dto.getName());
         user.setSurname(dto.getSurname());
@@ -23,7 +23,8 @@ public class UserMapper {
 
         return user;
     }
-    ReadUserDto map (Users users){
+
+    ReadUserDto map(Users users) {
         ReadUserDto dto = new ReadUserDto();
         String name = users.getName();
         String hash = nameEncoder.encode(name);
