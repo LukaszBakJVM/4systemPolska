@@ -15,30 +15,29 @@ import java.util.List;
 
 public interface UserRepository extends PagingAndSortingRepository<Users, Long> {
 
-    @Query("SELECT u FROM Users u WHERE LOWER(u.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-            "OR LOWER(u.surname) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-            "OR LOWER(u.login) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
-    List<Users> findByNameOrSurnameOrLogin(@Param("searchTerm") String searchTerm);
-    @Query("SELECT u FROM Users u " +
-            "ORDER BY " +
-            "CASE WHEN :sortBy = 'name' THEN u.name END ASC, " +
-            "CASE WHEN :sortBy = 'surname' THEN u.surname END ASC, " +
-            "CASE WHEN :sortBy = 'login' THEN u.login END ASC")
-    Page<Users> findAndSortedBy(@Param("sortBy") String sortBy, Pageable pageable);
-   List<Users>saveAll(Iterable<Users> entities);
 
     @Query("SELECT u FROM Users u " +
-            "WHERE lower(u.name) LIKE lower(concat('%', :searchKeyword, '%')) " +
-            "OR lower(u.surname) LIKE lower(concat('%', :searchKeyword, '%')) " +
-            "OR lower(u.login) LIKE lower(concat('%', :searchKeyword, '%')) " +
             "ORDER BY " +
-            "CASE WHEN :sortBy = 'name' THEN u.name END ASC, " +
-            "CASE WHEN :sortBy = 'surname' THEN u.surname END ASC, " +
-            "CASE WHEN :sortBy = 'login' THEN u.login END ASC NULLS LAST")
+            "CASE WHEN :sortBy = 'name' THEN u.name " +
+            "     WHEN :sortBy = 'surname' THEN u.surname " +
+            "     WHEN :sortBy = 'login' THEN u.login " +
+            "     ELSE '' END")
+    Page<Users> findAndSortedBy(@Param("sortBy") String sortBy, Pageable pageable);
+   List<Users>saveAll(Iterable<Users> entities);
+    @Query("SELECT u FROM Users u " +
+            "WHERE (:searchKeyword IS NULL OR u.name = :searchKeyword OR u.surname = :searchKeyword OR u.login = :searchKeyword) " +
+            "ORDER BY " +
+            "CASE WHEN :sortBy = 'name' THEN u.name " +
+            "     WHEN :sortBy = 'surname' THEN u.surname " +
+            "     WHEN :sortBy = 'login' THEN u.login " +
+            "     ELSE '' END")
+
     Page<Users> findAllWithPaginationAndSortingAndSearch(
             @Param("searchKeyword") String searchKeyword,
             @Param("sortBy") String sortBy,
             Pageable pageable
+
+
     );
 
 

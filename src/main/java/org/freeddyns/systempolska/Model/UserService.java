@@ -36,13 +36,14 @@ public class UserService {
         this.mapper = mapper;
         this.columnName = columnName;
     }
-    Flux<WriteUserDto>saveUsersFromFile(MultipartFile file){
+
+    Flux<WriteUserDto> saveUsersFromFile(MultipartFile file) {
         try (Reader reader = new InputStreamReader(file.getInputStream())) {
-            List<WriteUserDto> writeUserDtos = readUserDtoFromXml(reader);
-            List<Users> users = writeUserDtos.stream().map(mapper::map)
+            List<WriteUserDto> writeUserDto = readUserDtoFromXml(reader);
+            List<Users> users = writeUserDto.stream().map(mapper::map)
                     .toList();
             repository.saveAll(users);
-            return Flux.fromIterable(writeUserDtos);
+            return Flux.fromIterable(writeUserDto);
 
         } catch (IOException e) {
             throw new WrongFileFormatException();
@@ -50,31 +51,33 @@ public class UserService {
 
 
     }
+
     private List<WriteUserDto> readUserDtoFromXml(Reader reader) throws IOException {
         XmlMapper xmlMapper = new XmlMapper();
-        TypeReference<List<WriteUserDto>> typeReference = new TypeReference<>() {};
+        TypeReference<List<WriteUserDto>> typeReference = new TypeReference<>() {
+        };
 
         return xmlMapper.readValue(reader, typeReference);
     }
-    public List<ReadUserDto> getUsersWithPaginationAndSortingAndSearch(
-            String searchKeyword, String sortBy,int page) {
-        PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
-        if (sortBy == null){
-            sortBy = "surname";
 
-        }
+    public List<ReadUserDto> getUsersWithPaginationAndSortingAndSearch(
+            String searchKeyword, String sortBy, int page) {
+        PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
+
         return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, sortBy, pageRequest).getContent()
                 .stream()
-                 .map(mapper::map)
-                 .toList();
+                .map(mapper::map)
+                .toList();
     }
-///sortowanie all
-  List<ReadUserDto> getUsersWithPaginationAndSorting( String sortBy, int page ){
+
+    ///sortowanie all
+    List<ReadUserDto> getUsersWithPaginationAndSorting(String sortBy, int page) {
         PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
-    return      repository.findAndSortedBy(sortBy,pageRequest).stream().map(mapper::map).
-              toList();
+        return repository.findAndSortedBy(sortBy, pageRequest).stream().map(mapper::map).
+                toList();
     }
-    Set<String>columnNames(){
+
+    Set<String> columnNames() {
         return columnName.getAllColumnNames(Users.class);
 
     }
