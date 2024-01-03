@@ -8,15 +8,39 @@
 </head>
 <body class="container">
 <h1 class="mt-5">Upload Page</h1>
-<form action="/user/upload" method="post" enctype="multipart/form-data" class="mt-3">
+<form id="uploadForm" enctype="multipart/form-data">
     <div class="custom-file">
         <input type="file" class="custom-file-input" id="fileInput" name="file" accept=".xml" required>
-        <label class="custom-file-label" for="fileInput">Choose file</label>
+        <label class="custom-file-label" for="fileInput" id="fileInputLabel">Choose file</label>
     </div>
-    <button type="submit" class="btn btn-primary mt-3">Upload XML File</button>
+    <button type="button" class="btn btn-primary mt-3" onclick="uploadFile()">Upload XML File</button>
 </form>
 <div class="mt-3">
+    <p id="uploadMessage"></p>
     <a href="/" class="btn btn-secondary">Back to Home</a>
 </div>
+
+<script>
+    function uploadFile() {
+        var formData = new FormData(document.getElementById('uploadForm'));
+
+        fetch('/user/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('uploadMessage').innerText = data.message;
+                document.getElementById('fileInputLabel').innerText = "Choose file";
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    document.getElementById('fileInput').addEventListener('change', function () {
+        document.getElementById('fileInputLabel').innerText = this.value.split('\\').pop();
+    });
+</script>
 </body>
 </html>

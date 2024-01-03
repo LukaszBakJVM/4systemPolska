@@ -1,6 +1,8 @@
 package org.freeddyns.systempolska.Model;
 
 import org.freeddyns.systempolska.Configuration.NameEncoder;
+import org.freeddyns.systempolska.Model.Dto.ReadUserDto;
+import org.freeddyns.systempolska.Model.Dto.WriteUserDto;
 import org.springframework.stereotype.Service;
 
 @Service

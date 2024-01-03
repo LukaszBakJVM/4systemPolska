@@ -1,4 +1,4 @@
-package org.freeddyns.systempolska.Model;
+package org.freeddyns.systempolska.Model.Dto;
 
 public class ReadUserDto {
     private String surname;

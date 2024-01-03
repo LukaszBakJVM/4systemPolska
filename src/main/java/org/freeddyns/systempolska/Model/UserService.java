@@ -6,6 +6,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import org.freeddyns.systempolska.ColumnName;
+import org.freeddyns.systempolska.Model.Dto.ReadUserDto;
+import org.freeddyns.systempolska.Model.Dto.WriteUserDto;
 import org.springframework.data.domain.PageRequest;
 
 import org.springframework.stereotype.Service;
@@ -35,7 +37,7 @@ public class UserService {
     }
     Flux<WriteUserDto>saveUsersFromFile(MultipartFile file){
         try (Reader reader = new InputStreamReader(file.getInputStream())) {
-            List<WriteUserDto> writeUserDtos = readUserDtoFromJson(reader);
+            List<WriteUserDto> writeUserDtos = readUserDtoFromXml(reader);
             List<Users> users = writeUserDtos.stream().map(mapper::map)
                     .toList();
             repository.saveAll(users);
@@ -47,7 +49,7 @@ public class UserService {
 
 
     }
-    private List<WriteUserDto> readUserDtoFromJson(Reader reader) throws IOException {
+    private List<WriteUserDto> readUserDtoFromXml(Reader reader) throws IOException {
         XmlMapper xmlMapper = new XmlMapper();
         TypeReference<List<WriteUserDto>> typeReference = new TypeReference<>() {};
 
