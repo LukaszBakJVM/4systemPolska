@@ -12,10 +12,10 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UploadFileController {
     private final UserService service;
 
-    public UserController(UserService service) {
+    public UploadFileController(UserService service) {
         this.service = service;
     }
 
