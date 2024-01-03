@@ -2,20 +2,25 @@ package org.freeddyns.systempolska.Model;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 
 @Entity
-@Table(name = "users")
-public class User {
+
+public class Users {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "surname")
     private String surname;
+    @Column(name = "login")
     private String login;
 
-    public User() {
+    public Users() {
     }
 
     public long getId() {
@@ -50,5 +55,21 @@ public class User {
         this.login = login;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Users users = (Users) o;
+        return Objects.equals(name, users.name) && Objects.equals(surname, users.surname) && Objects.equals(login, users.login);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, surname, login);
+    }
 }
+
+
+
+
+

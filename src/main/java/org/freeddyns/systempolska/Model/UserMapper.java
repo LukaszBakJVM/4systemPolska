@@ -13,25 +13,25 @@ public class UserMapper {
         this.str = str;
     }
 
-    User map (WriteUserDto dto){
-        User user = new User();
+    Users map (WriteUserDto dto){
+        Users user = new Users();
         user.setName(dto.getName());
         user.setSurname(dto.getSurname());
         user.setLogin(dto.getLogin());
 
         return user;
     }
-    ReadUserDto map (User user){
+    ReadUserDto map (Users users){
         ReadUserDto dto = new ReadUserDto();
-        String name = user.getName();
+        String name = users.getName();
         String hash = nameEncoder.encode(name);
-        String surname = user.getSurname();
+        String surname = users.getSurname();
         str.append(surname);
         str.append("_");
         str.append(hash);
         dto.setSurname(str.toString());
         str.setLength(0);
-        dto.setLogin(user.getLogin());
+        dto.setLogin(users.getLogin());
 
         return dto;
 

@@ -1,6 +1,7 @@
 package org.freeddyns.systempolska.Configuration;
 
 
+
 import org.springframework.context.annotation.Bean;
 
 
@@ -17,6 +18,7 @@ public class Configuration {
     StringBuilder str() {
         return new StringBuilder();
     }
+
 }
 
 

@@ -1,5 +1,6 @@
 package org.freeddyns.systempolska.Model;
 
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/user")
@@ -27,9 +29,15 @@ public class UserController {
                                                      @RequestParam(required = false) String sortBy,
                                                      @RequestParam(defaultValue = "0") int page){
         if (searchKeyword == null){
-            return ResponseEntity.ok(service.findAll(page));
+            return ResponseEntity.ok(service.getUsersWithPaginationAndSorting( sortBy,page));
         }
-        return ResponseEntity.ok(service.getUsersWithPaginationAndSortingAndSearch(searchKeyword,sortBy,page));
+        return ResponseEntity.notFound().build();
+
+               // ResponseEntity.ok(service.getUsersWithPaginationAndSortingAndSearch(searchKeyword,sortBy,page));
+    }
+    @GetMapping("/colums")
+    Set<String> names(){
+        return service.columnNames();
     }
 
 }
