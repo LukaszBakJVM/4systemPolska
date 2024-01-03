@@ -22,7 +22,7 @@
 
 <script>
     function uploadFile() {
-        var formData = new FormData(document.getElementById('uploadForm'));
+        const formData = new FormData(document.getElementById('uploadForm'));
 
         fetch('/upload', {
             method: 'POST',
@@ -32,6 +32,18 @@
             .then(data => {
                 document.getElementById('uploadMessage').innerText = data.message;
                 document.getElementById('fileInputLabel').innerText = "Choose file";
+
+                // Dodaj przycisk do przeniesienia na /index.html
+                const backButton = document.createElement('a');
+                backButton.href = "/index.html";
+                backButton.className = "btn btn-success mt-3";
+                backButton.innerText = "Go to Index";
+
+                const buttonContainer = document.createElement('div');
+                buttonContainer.className = "text-center";
+                buttonContainer.appendChild(backButton);
+
+                document.querySelector('.mt-3').appendChild(buttonContainer);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -42,5 +54,6 @@
         document.getElementById('fileInputLabel').innerText = this.value.split('\\').pop();
     });
 </script>
+
 </body>
 </html>
