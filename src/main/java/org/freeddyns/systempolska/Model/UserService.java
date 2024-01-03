@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import org.freeddyns.systempolska.ColumnName;
+import org.freeddyns.systempolska.Exception.WrongFileFormatException;
 import org.freeddyns.systempolska.Model.Dto.ReadUserDto;
 import org.freeddyns.systempolska.Model.Dto.WriteUserDto;
 import org.springframework.data.domain.PageRequest;
@@ -44,7 +45,7 @@ public class UserService {
             return Flux.fromIterable(writeUserDtos);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new WrongFileFormatException();
         }
 
 

@@ -1,4 +1,4 @@
-package org.freeddyns.systempolska.Model;
+package org.freeddyns.systempolska.Controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -24,7 +24,7 @@
     function uploadFile() {
         var formData = new FormData(document.getElementById('uploadForm'));
 
-        fetch('/user/upload', {
+        fetch('/upload', {
             method: 'POST',
             body: formData
         })
