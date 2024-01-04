@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Search</title>
+    <!-- Dodaj linki do Bootstrapa -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <form id="searchForm">
+        <div class="form-row">
+            <!-- Pole do wprowadzenia frazy wyszukiwania -->
+            <div class="col-md-4 mb-3">
+                <label for="searchKeyword">Search Keyword:</label>
+                <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"/>
+            </div>
+
+            <!-- Lista rozwijana do wyboru kolumny do wyszukiwania -->
+            <div class="col-md-4 mb-3">
+                <label for="column">Select Column:</label>
+                <select class="form-control" id="column" name="sortBy">
+                    <option value="">-- Select Column --</option>
+                    <!-- Opcje będą dynamicznie dodawane przez JavaScript -->
+                </select>
+            </div>
+        </div>
+
+        <!-- Przycisk do wysyłania formularza -->
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <!-- Tabela wyników wyszukiwania -->
+    <table class="table mt-3">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Login</th>
+            <!-- Dodaj inne kolumny, jeśli są potrzebne -->
+        </tr>
+        </thead>
+        <tbody id="resultsTableBody">
+        <!-- Wyniki będą dodawane dynamicznie przez JavaScript -->
+        </tbody>
+    </table>
+
+    <!-- Przyciski do nawigacji między stronami -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination" id="pagination">
+            <!-- Strony będą dodawane dynamicznie przez JavaScript -->
+        </ul>
+    </nav>
+</div>
+
+<!-- Dodaj skrypty Bootstrapa, jQuery oraz Fetch API -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById('searchForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        sendRequest();
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Pobierz kolumny do sortowania przy załadowaniu strony
+        fetch('/user/columns')
+            .then(response => response.json())
+            .then(data => {
+                var columnSelect = document.getElementById('column');
+
+                data.forEach(column => {
+                    var option = document.createElement('option');
+                    option.value = column;
+                    option.textContent = column;
+                    columnSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+    function sendRequest() {
+        var searchKeyword = document.getElementById('searchKeyword').value;
+        var sortBy = document.getElementById('column').value;
+
+        fetch('/user?searchKeyword=' + searchKeyword + '&sortBy=' + sortBy)
+            .then(response => response.json())
+            .then(data => {
+                updateTable(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    function updateTable(data) {
+        var tableBody = document.getElementById('resultsTableBody');
+        tableBody.innerHTML = '';
+
+        data.forEach(user => {
+            var row = tableBody.insertRow();
+            var idCell = row.insertCell(0);
+            var nameCell = row.insertCell(1);
+            var surnameCell = row.insertCell(2);
+            var loginCell = row.insertCell(3);
+
+            idCell.textContent = user.id;
+            nameCell.textContent = user.name;
+            surnameCell.textContent = user.surname;
+            loginCell.textContent = user.login;
+            // Dodaj inne komórki, jeśli są potrzebne
+        });
+    }
+</script>
+
+</body>
+</html>
