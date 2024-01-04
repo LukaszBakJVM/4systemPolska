@@ -18,6 +18,8 @@
 <div class="mt-3">
     <p id="uploadMessage"></p>
     <a href="/" class="btn btn-secondary">Back to Home</a>
+    <div id="goToIndexContainer" class="text-center"></div>
+
 </div>
 
 <script>
@@ -34,12 +36,16 @@
                 document.getElementById('fileInputLabel').innerText = "Choose file";
 
                 // Dodaj przycisk do przeniesienia na /index.html
-                const backButton = document.createElement('a');
+                var backButton = document.createElement('a');
                 backButton.href = "/index.html";
                 backButton.className = "btn btn-success mt-3";
                 backButton.innerText = "Go to Index";
 
-                const buttonContainer = document.createElement('div');
+                if (goToIndexContainer.querySelector('.btn-success')) {
+                    return;
+                }
+
+                    var buttonContainer = document.createElement('div');
                 buttonContainer.className = "text-center";
                 buttonContainer.appendChild(backButton);
 

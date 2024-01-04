@@ -56,12 +56,12 @@ public class UserService {
     }
 
     public List<ReadUserDto> getUsersWithPaginationAndSortingAndSearch(
-            String searchKeyword, String sortBy, int page) {
+            String searchKeyword, String searchBy, String sortBy, int page) {
         PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
 
-        return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, sortBy, pageRequest).getContent()
+        return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, searchBy, sortBy, pageRequest).getContent()
                 .stream()
-                .map(mapper::map)
+                .map(mapper::map).peek(System.out::println)
                 .toList();
     }
 
