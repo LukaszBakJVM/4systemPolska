@@ -24,7 +24,7 @@ public class UserController {
                                                      @RequestParam(required = false) String searchBy,
                                                      @RequestParam(required = false) String sortBy,
                                                      @RequestParam(defaultValue = "0") int page) {
-        if (searchKeyword == null) {
+        if (searchKeyword== null||searchKeyword.equals("null")) {
             return ResponseEntity.ok(service.getUsersWithPaginationAndSorting(sortBy, page));
         }
 
