@@ -23,7 +23,7 @@ public class UploadFileController {
 
     @PostMapping("/upload")
     public ResponseEntity<Map<String, Object>> uploadUsers(@RequestParam("file") MultipartFile file) {
-        Flux<WriteUserDto> result = service.saveUsersFromFile(file);
+        Flux<WriteUserDto> result = service.writeUserToDatabase(file);
         long numberOfEntries = result.collectList().block().size();
 
         Map<String, Object> response = new HashMap<>();

@@ -32,7 +32,7 @@ public class UserService {
         this.columnName = columnName;
     }
 
-    Flux<WriteUserDto> saveUsersFromFile(MultipartFile file) {
+    Flux<WriteUserDto> writeUserToDatabase(MultipartFile file) {
         try (Reader reader = new InputStreamReader(file.getInputStream())) {
             List<WriteUserDto> writeUserDto = readUserDtoFromXml(reader);
             List<Users> users = writeUserDto.stream().map(mapper::map)
@@ -59,21 +59,31 @@ public class UserService {
             String searchKeyword, String searchBy, String sortBy, int page) {
         PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
 
-        return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, searchBy, sortBy, pageRequest).getContent()
+        String searchByCheck = convertNullToId(searchBy);
+
+        String sortByCheck = convertNullToId(sortBy);
+
+        return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, searchByCheck, sortByCheck, pageRequest).getContent()
                 .stream()
-                .map(mapper::map).peek(System.out::println)
+                .map(mapper::map)
                 .toList();
     }
 
 
     List<ReadUserDto> getUsersWithPaginationAndSorting(String sortBy, int page) {
         PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
-        return repository.findAndSortedBy(sortBy, pageRequest).stream().map(mapper::map).
+        String sortByCheck = convertNullToId(sortBy);
+        return repository.findAndSortedBy(sortByCheck, pageRequest).stream().map(mapper::map).
                 toList();
     }
 
     Set<String> columnNames() {
         return columnName.getAllColumnNames(Users.class);
+
+    }
+    private String convertNullToId(String s){
+        return (s == null || "null".equals(s)) ? "id" : s;
+
 
     }
 }

@@ -28,19 +28,25 @@
 
             <!-- Pola do sortowania (checkbox) -->
             <div class="col-md-4 mb-3">
+                <label>Sort By:</label>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" id="sortByName" name="sortByName" value="name">
-                    <label class="form-check-label" for="sortByName">Sort by Name</label>
+                    <input class="form-check-input" type="radio" name="sortOption" id="id" value="name">
+                    <label class="form-check-label" for="sortByName">No sorting</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" id="sortBySurname" name="sortBySurname" value="surname">
-                    <label class="form-check-label" for="sortBySurname">Sort by Surname</label>
+                    <input class="form-check-input" type="radio" name="sortOption" id="sortByName" value="name">
+                    <label class="form-check-label" for="sortByName">Name</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" id="sortByLogin" name="sortByLogin" value="login">
-                    <label class="form-check-label" for="sortByLogin">Sort by Login</label>
+                    <input class="form-check-input" type="radio" name="sortOption" id="sortBySurname" value="surname">
+                    <label class="form-check-label" for="sortBySurname">Surname</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sortOption" id="sortByLogin" value="login">
+                    <label class="form-check-label" for="sortByLogin">Login</label>
                 </div>
             </div>
+
         </div>
 
         <!-- Przycisk do wysyłania formularza -->
@@ -141,6 +147,16 @@
             });
     }
 
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const sortOptions = document.getElementsByName('sortOption');
+
+        sortOptions.forEach(function (option) {
+            option.addEventListener('change', function () {
+                updateSortBy();
+            });
+        });
+    });
 
 
 

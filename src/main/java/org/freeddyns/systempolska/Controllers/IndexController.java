@@ -15,5 +15,10 @@ public class IndexController {
         return "upload.html";
     }
 
+    @GetMapping("/search")
+    String search(){
+        return "search.html";
+    }
+
 
 }
