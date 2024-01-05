@@ -35,8 +35,7 @@ public class UserService {
     Flux<WriteUserDto> writeUserToDatabase(MultipartFile file) {
         try (Reader reader = new InputStreamReader(file.getInputStream())) {
             List<WriteUserDto> writeUserDto = readUserDtoFromXml(reader);
-            List<Users> users = writeUserDto.stream().map(mapper::map)
-                    .toList();
+            List<Users> users = writeUserDto.stream().map(mapper::map).toList();
             repository.saveAll(users);
             return Flux.fromIterable(writeUserDto);
 
@@ -55,15 +54,14 @@ public class UserService {
         return xmlMapper.readValue(reader, typeReference);
     }
 
-    public List<ReadUserDto> getUsersWithPaginationAndSortingAndSearch(
-            String searchKeyword, String searchBy, String sortBy, int page) {
+    public List<ReadUserDto> getUsersWithPaginationAndSortingAndSearch(String searchKeyword, String searchBy, String sortBy, int page) {
 
 
         String searchByCheck = convertNullToId(searchBy);
         String sortByCheck = convertNullToId(sortBy);
 
 
-        long count = (repository.countByColumnAndSearchKeyword(searchKeyword, searchByCheck) + PAGE_SIZE - 1) / (PAGE_SIZE);
+        long count = countTotalPage(repository.countByColumnAndSearchKeyword(searchKeyword, searchByCheck));
         PageRequest pageRequest;
         if (page >= count) {
             pageRequest = PageRequest.of(0, PAGE_SIZE);
@@ -71,18 +69,14 @@ public class UserService {
             pageRequest = PageRequest.of(page, PAGE_SIZE);
 
         }
-        return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, searchByCheck, sortByCheck, pageRequest).getContent()
-                .stream()
-                .map(mapper::map)
-                .toList();
+        return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, searchByCheck, sortByCheck, pageRequest).getContent().stream().map(mapper::map).toList();
 
     }
 
     List<ReadUserDto> getUsersWithPaginationAndSorting(String sortBy, int page) {
         PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
         String sortByCheck = convertNullToId(sortBy);
-        return repository.findAndSortedBy(sortByCheck, pageRequest).stream().map(mapper::map).
-                toList();
+        return repository.findAndSortedBy(sortByCheck, pageRequest).stream().map(mapper::map).toList();
     }
 
     Set<String> columnNames() {
@@ -93,6 +87,9 @@ public class UserService {
     private String convertNullToId(String s) {
         return (s == null || "null".equals(s)) ? "id" : s;
 
+    }
 
+    private long countTotalPage(long numberOfEntries){
+        return (numberOfEntries + PAGE_SIZE - 1) / PAGE_SIZE;
     }
 }
