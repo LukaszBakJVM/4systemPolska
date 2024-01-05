@@ -47,8 +47,8 @@
     <table class="table mt-3">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
+
+
             <th>Surname</th>
             <th>Login</th>
             <!-- Dodaj inne kolumny, jeśli są potrzebne -->
@@ -77,6 +77,11 @@
         sendRequest();
     });
 
+    document.getElementById('column').addEventListener('change', function () {
+        // Nie wywołuj updateSortBy automatycznie po zmianie kolumny
+        // updateSortBy();
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
         // Pobierz kolumny do sortowania przy załadowaniu strony
         fetch('/user/columns')
@@ -96,11 +101,6 @@
                     sortByOption.value = column;
                     sortByOption.textContent = column;
                     sortBySelect.appendChild(sortByOption);
-                });
-
-                // Dodaj obsługę zmiany wybranej kolumny
-                columnSelect.addEventListener('change', function () {
-                    updateSortBy();
                 });
             })
             .catch(error => {
@@ -132,21 +132,39 @@
                 console.error('Error:', error);
             });
     }
-
     function updateSortBy() {
         // Obsługa zmiany sortowania po kolumnie
         sendRequest();
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const sortOptions = document.getElementsByName('sortOption');
+    function updateTable(data) {
+        // Pobierz referencję do tabeli
+        const tableBody = document.getElementById('resultsTableBody');
 
-        sortOptions.forEach(function (option) {
-            option.addEventListener('change', function () {
-                updateSortBy();
+        // Wyczyść zawartość tabeli przed aktualizacją
+        tableBody.innerHTML = '';
+
+        // Sprawdź, czy dane są pojedynczym wynikiem
+        if (data.length === undefined) {
+            data = [data]; // Jeśli to pojedynczy wynik, umieść go w tablicy
+        }
+
+        // Iteruj przez dane i dodaj wiersze do tabeli
+        data.forEach(rowData => {
+            const row = document.createElement('tr');
+
+            Object.values(rowData).forEach(value => {
+                const cell = document.createElement('td');
+                cell.textContent = value;
+                row.appendChild(cell);
             });
+
+            tableBody.appendChild(row);
         });
-    });
+    }
+
+
+
 
 </script>
 
