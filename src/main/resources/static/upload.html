@@ -18,8 +18,9 @@
 <div class="mt-3">
     <p id="uploadMessage"></p>
     <a href="/" class="btn btn-secondary">Back to Home</a>
-    <div id="goToIndexContainer" class="text-center"></div>
-
+</div>
+<div id="goToIndexContainer" class="text-center">
+    <!-- Przycisk "Go to Search Page" został przeniesiony tutaj -->
 </div>
 
 <script>
@@ -35,21 +36,17 @@
                 document.getElementById('uploadMessage').innerText = data.message;
                 document.getElementById('fileInputLabel').innerText = "Choose file";
 
-                // Dodaj przycisk do przeniesienia na /index.html
-                var backButton = document.createElement('a');
+                let backButton = document.createElement('a');
                 backButton.href = "/search";
-                backButton.className = "btn btn-success mt-3";
+                backButton.className = "btn btn-success mt-3"; // Usunięto klasę float-right
                 backButton.innerText = "Go to Search Page";
 
                 if (goToIndexContainer.querySelector('.btn-success')) {
                     return;
                 }
 
-                    var buttonContainer = document.createElement('div');
-                buttonContainer.className = "text-center";
-                buttonContainer.appendChild(backButton);
-
-                document.querySelector('.mt-3').appendChild(buttonContainer);
+                goToIndexContainer.innerHTML = ''; // Wyczyszczono zawartość goToIndexContainer
+                goToIndexContainer.appendChild(backButton);
             })
             .catch(error => {
                 console.error('Error:', error);
