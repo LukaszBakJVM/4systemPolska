@@ -17,7 +17,7 @@
             <!-- Pole do wprowadzenia frazy wyszukiwania -->
             <div class="col-md-4 mb-3">
                 <label for="searchKeyword">Search Keyword:</label>
-                <input type="text" class="form-control" id="searchKeyword" name="searchKeyword" />
+                <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"/>
             </div>
 
             <!-- Lista rozwijana do wyboru kolumny do wyszukiwania -->
@@ -37,18 +37,19 @@
                     <!-- Opcje będą dynamicznie dodawane przez JavaScript -->
                 </select>
             </div>
-        </div>
 
-        <!-- Przycisk do wysyłania formularza -->
-        <button type="submit" class="btn btn-primary">Search</button>
+            <!-- Przycisk do wysyłania formularza -->
+            <div class="col-md-12 mt-3">
+                <button type="submit" class="btn btn-primary mr-2">Search</button>
+
+            </div>
+        </div>
     </form>
 
     <!-- Tabela wyników wyszukiwania -->
     <table class="table mt-3">
         <thead>
         <tr>
-
-
             <th>Surname</th>
             <th>Login</th>
             <!-- Dodaj inne kolumny, jeśli są potrzebne -->
@@ -58,13 +59,17 @@
         <!-- Wyniki będą dodawane dynamicznie przez JavaScript -->
         </tbody>
     </table>
-
-    <!-- Przyciski do nawigacji między stronami -->
     <nav aria-label="Page navigation">
         <ul class="pagination" id="pagination">
             <!-- Strony będą dodawane dynamicznie przez JavaScript -->
         </ul>
     </nav>
+
+    <!-- Przyciski Next i Previous -->
+    <div class="mt-3">
+        <button type="button" class="btn btn-primary" onclick="previousPage()">Previous</button>
+        <button type="button" class="btn btn-primary" onclick="nextPage()">Next</button>
+    </div>
 </div>
 
 <!-- Dodaj skrypty Bootstrapa, jQuery oraz Fetch API -->
@@ -72,9 +77,12 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <script>
+    let currentPage = 0;
+
     document.getElementById('searchForm').addEventListener('submit', function (event) {
         event.preventDefault();
-        sendRequest();
+        currentPage = 0;
+        sendRequest(currentPage);
     });
 
     document.getElementById('column').addEventListener('change', function () {
@@ -106,9 +114,11 @@
             .catch(error => {
                 console.error('Error:', error);
             });
+
+        sendRequest(currentPage);
     });
 
-    function sendRequest() {
+    function sendRequest(page) {
         let searchKeyword = document.getElementById('searchKeyword').value;
         let searchBy = document.getElementById('column').value;
         let sortBy = document.getElementById('sortBy').value;
@@ -123,7 +133,7 @@
         searchBy = searchBy === null ? "null" : searchBy;
         sortBy = sortBy === null ? "null" : sortBy;
 
-        fetch(`/user?searchKeyword=${searchKeyword}&searchBy=${searchBy}&sortBy=${sortBy}`)
+        fetch(`/user?searchKeyword=${searchKeyword}&searchBy=${searchBy}&sortBy=${sortBy}&page=${page}`)
             .then(response => response.json())
             .then(data => {
                 updateTable(data);
@@ -132,10 +142,6 @@
                 console.error('Error:', error);
             });
     }
-    function updateSortBy() {
-        // Obsługa zmiany sortowania po kolumnie
-        sendRequest();
-    }
 
     function updateTable(data) {
         // Pobierz referencję do tabeli
@@ -143,11 +149,6 @@
 
         // Wyczyść zawartość tabeli przed aktualizacją
         tableBody.innerHTML = '';
-
-        // Sprawdź, czy dane są pojedynczym wynikiem
-        if (data.length === undefined) {
-            data = [data]; // Jeśli to pojedynczy wynik, umieść go w tablicy
-        }
 
         // Iteruj przez dane i dodaj wiersze do tabeli
         data.forEach(rowData => {
@@ -163,9 +164,17 @@
         });
     }
 
+    function previousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            sendRequest(currentPage);
+        }
+    }
 
-
-
+    function nextPage() {
+        currentPage++;
+        sendRequest(currentPage);
+    }
 </script>
 
 </body>

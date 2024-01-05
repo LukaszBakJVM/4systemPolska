@@ -57,18 +57,26 @@ public class UserService {
 
     public List<ReadUserDto> getUsersWithPaginationAndSortingAndSearch(
             String searchKeyword, String searchBy, String sortBy, int page) {
-        PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
+
 
         String searchByCheck = convertNullToId(searchBy);
-
         String sortByCheck = convertNullToId(sortBy);
 
+
+        long count = (repository.countByColumnAndSearchKeyword(searchKeyword, searchByCheck) + PAGE_SIZE - 1) / (PAGE_SIZE);
+        PageRequest pageRequest;
+        if (page >= count) {
+            pageRequest = PageRequest.of(0, PAGE_SIZE);
+        } else {
+            pageRequest = PageRequest.of(page, PAGE_SIZE);
+
+        }
         return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, searchByCheck, sortByCheck, pageRequest).getContent()
                 .stream()
                 .map(mapper::map)
                 .toList();
-    }
 
+    }
 
     List<ReadUserDto> getUsersWithPaginationAndSorting(String sortBy, int page) {
         PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
@@ -81,7 +89,8 @@ public class UserService {
         return columnName.getAllColumnNames(Users.class);
 
     }
-    private String convertNullToId(String s){
+
+    private String convertNullToId(String s) {
         return (s == null || "null".equals(s)) ? "id" : s;
 
 
