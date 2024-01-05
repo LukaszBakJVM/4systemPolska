@@ -1,4 +1,6 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -6,6 +8,7 @@
     <!-- Dodaj linki do Bootstrapa -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
+
 <body>
 
 <div class="container mt-5">
@@ -14,39 +17,26 @@
             <!-- Pole do wprowadzenia frazy wyszukiwania -->
             <div class="col-md-4 mb-3">
                 <label for="searchKeyword">Search Keyword:</label>
-                <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"/>
+                <input type="text" class="form-control" id="searchKeyword" name="searchKeyword" />
             </div>
 
             <!-- Lista rozwijana do wyboru kolumny do wyszukiwania -->
             <div class="col-md-4 mb-3">
                 <label for="column">Select Column:</label>
-                <select class="form-control" id="column" name="sortBy">
+                <select class="form-control" id="column" name="searchBy">
                     <option value="">-- Select Column --</option>
                     <!-- Opcje będą dynamicznie dodawane przez JavaScript -->
                 </select>
             </div>
 
-            <!-- Pola do sortowania (checkbox) -->
+            <!-- Lista rozwijana do wyboru kolumny do sortowania -->
             <div class="col-md-4 mb-3">
-                <label>Sort By:</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="sortOption" id="id" value="name">
-                    <label class="form-check-label" for="sortByName">No sorting</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="sortOption" id="sortByName" value="name">
-                    <label class="form-check-label" for="sortByName">Name</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="sortOption" id="sortBySurname" value="surname">
-                    <label class="form-check-label" for="sortBySurname">Surname</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="sortOption" id="sortByLogin" value="login">
-                    <label class="form-check-label" for="sortByLogin">Login</label>
-                </div>
+                <label for="sortBy">Sort By:</label>
+                <select class="form-control" id="sortBy" name="sortBy">
+                    <option value="">-- Sort By --</option>
+                    <!-- Opcje będą dynamicznie dodawane przez JavaScript -->
+                </select>
             </div>
-
         </div>
 
         <!-- Przycisk do wysyłania formularza -->
@@ -80,11 +70,8 @@
 <!-- Dodaj skrypty Bootstrapa, jQuery oraz Fetch API -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 <script>
-
-
-    <!-- Pozostały kod pozostaje niezmieniony -->
-
     document.getElementById('searchForm').addEventListener('submit', function (event) {
         event.preventDefault();
         sendRequest();
@@ -96,12 +83,24 @@
             .then(response => response.json())
             .then(data => {
                 const columnSelect = document.getElementById('column');
+                const sortBySelect = document.getElementById('sortBy');
 
                 data.forEach(column => {
                     const option = document.createElement('option');
                     option.value = column;
                     option.textContent = column;
                     columnSelect.appendChild(option);
+
+                    // Dodaj opcje do listy rozwijanej sortowania
+                    const sortByOption = document.createElement('option');
+                    sortByOption.value = column;
+                    sortByOption.textContent = column;
+                    sortBySelect.appendChild(sortByOption);
+                });
+
+                // Dodaj obsługę zmiany wybranej kolumny
+                columnSelect.addEventListener('change', function () {
+                    updateSortBy();
                 });
             })
             .catch(error => {
@@ -112,32 +111,19 @@
     function sendRequest() {
         let searchKeyword = document.getElementById('searchKeyword').value;
         let searchBy = document.getElementById('column').value;
-        const sortBy = [];
-
-        const sortByName = document.getElementById('sortByName').checked;
-        const sortBySurname = document.getElementById('sortBySurname').checked;
-        const sortByLogin = document.getElementById('sortByLogin').checked;
-
-        if (sortByName) {
-            sortBy.push('name');
-        }
-        if (sortBySurname) {
-            sortBy.push('surname');
-        }
-        if (sortByLogin) {
-            sortBy.push('login');
-        }
+        let sortBy = document.getElementById('sortBy').value;
 
         // Sprawdź, czy searchKeyword, searchBy lub sortBy są puste i ustaw na null
         searchKeyword = searchKeyword.trim() === "" ? null : searchKeyword;
         searchBy = searchBy.trim() === "" ? null : searchBy;
-        const finalSortBy = sortBy.length === 0 ? null : sortBy.join(',');
+        sortBy = sortBy.trim() === "" ? null : sortBy;
 
         // Ustaw null jako null, a puste ciągi jako puste ciągi
         searchKeyword = searchKeyword === null ? "null" : searchKeyword;
         searchBy = searchBy === null ? "null" : searchBy;
+        sortBy = sortBy === null ? "null" : sortBy;
 
-        fetch(`/user?searchKeyword=${searchKeyword}&searchBy=${searchBy}&sortBy=${finalSortBy}`)
+        fetch(`/user?searchKeyword=${searchKeyword}&searchBy=${searchBy}&sortBy=${sortBy}`)
             .then(response => response.json())
             .then(data => {
                 updateTable(data);
@@ -147,6 +133,10 @@
             });
     }
 
+    function updateSortBy() {
+        // Obsługa zmiany sortowania po kolumnie
+        sendRequest();
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
         const sortOptions = document.getElementsByName('sortOption');
@@ -158,11 +148,8 @@
         });
     });
 
-
-
-
-
 </script>
 
 </body>
+
 </html>
