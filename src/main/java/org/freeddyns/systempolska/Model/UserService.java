@@ -74,8 +74,16 @@ public class UserService {
     }
 
     List<ReadUserDto> getUsersWithPaginationAndSorting(String sortBy, int page) {
-        PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
+
         String sortByCheck = convertNullToId(sortBy);
+        long count = countTotalPage(repository.countAllUsers());
+        PageRequest pageRequest;
+        if (page >= count) {
+            pageRequest = PageRequest.of(0, PAGE_SIZE);
+        } else {
+            pageRequest = PageRequest.of(page, PAGE_SIZE);
+
+        }
         return repository.findAndSortedBy(sortByCheck, pageRequest).stream().map(mapper::map).toList();
     }
 

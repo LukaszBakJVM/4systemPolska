@@ -18,6 +18,9 @@ public interface UserRepository extends JpaRepository<Users, Long> {
             "CASE WHEN :sortBy = 'id' THEN u.id END")
     Page<Users> findAndSortedBy(@Param("sortBy") String sortBy, Pageable pageable);
 
+    @Query("SELECT COUNT(u) FROM Users u")
+    Long countAllUsers();
+
 
     @Query("SELECT u FROM Users u " +
             "WHERE " +

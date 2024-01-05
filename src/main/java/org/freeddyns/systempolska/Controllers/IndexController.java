@@ -16,7 +16,7 @@ public class IndexController {
     }
 
     @GetMapping("/search")
-    String search(){
+    String search() {
         return "search.html";
     }
 
