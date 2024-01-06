@@ -7,6 +7,8 @@ import org.freeddyns.systempolska.Exception.WrongFileFormatException;
 import org.freeddyns.systempolska.Model.Dto.ReadUserDto;
 import org.freeddyns.systempolska.Model.Dto.WriteUserDto;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +27,7 @@ public class UserService {
     private final UserRepository repository;
     private final UserMapper mapper;
     private final ColumnName columnName;
-    private final int PAGE_SIZE = 20;
+    private final int PAGE_SIZE = 2;
 
     public UserService(UserRepository repository, UserMapper mapper, ColumnName columnName) {
         this.repository = repository;
@@ -63,16 +65,19 @@ public class UserService {
         String searchByCheck = convertNullToId(searchBy);
         String sortByCheck = convertNullToId(sortBy);
 
+        Pageable pageRequest;
+
 
         long count = countTotalPage(repository.countByColumnAndSearchKeyword(searchKeyword, searchByCheck));
-        PageRequest pageRequest;
+
         if (page >= count) {
-            pageRequest = PageRequest.of(0, PAGE_SIZE);
+         pageRequest =  createPageRequest(0,sortByCheck);
         } else {
-            pageRequest = PageRequest.of(page, PAGE_SIZE);
+            pageRequest = createPageRequest(page,sortByCheck);
 
         }
-        return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, searchByCheck, sortByCheck, pageRequest).getContent().stream().map(mapper::map).toList();
+        return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, searchByCheck, pageRequest)
+                .getContent().stream().map(mapper::map).toList();
 
     }
 
@@ -80,14 +85,15 @@ public class UserService {
 
         String sortByCheck = convertNullToId(sortBy);
         long count = countTotalPage(repository.countAllUsers());
-        PageRequest pageRequest;
+        Pageable pageRequest;
         if (page >= count) {
-            pageRequest = PageRequest.of(0, PAGE_SIZE);
+
+            pageRequest = createPageRequest(0,sortByCheck);
         } else {
-            pageRequest = PageRequest.of(page, PAGE_SIZE);
+            pageRequest = createPageRequest(page,sortByCheck);
 
         }
-        return repository.findAndSortedBy(sortByCheck, pageRequest).stream().map(mapper::map).toList();
+        return repository.findAndSortedBy( pageRequest).stream().map(mapper::map).toList();
     }
 
     Set<String> columnNames() {
@@ -100,7 +106,25 @@ public class UserService {
 
     }
 
-    private long countTotalPage(long numberOfEntries){
+    private long countTotalPage(long numberOfEntries) {
         return (numberOfEntries + PAGE_SIZE - 1) / PAGE_SIZE;
+    }
+
+    private Pageable createPageRequest(int page, String sortBy) {
+        Sort.Order order;
+        if ("login".equals(sortBy)) {
+            order = Sort.Order.by("login");
+        } else if ("name".equals(sortBy)) {
+            order = Sort.Order.by("name");
+        } else if ("surname".equals(sortBy)) {
+            order = Sort.Order.by("surname");
+        } else {
+
+            order = Sort.Order.by("id");
+
+        }
+
+
+        return PageRequest.of(page, PAGE_SIZE, Sort.by(order));
     }
 }
