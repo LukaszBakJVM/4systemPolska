@@ -68,12 +68,13 @@ public class UserService {
         long count = countTotalPage(repository.countByColumnAndSearchKeyword(searchKeyword, searchByCheck));
 
         if (page >= count) {
-         pageRequest=  createPageRequest(0,sortByCheck);
+         pageRequest =  createPageRequest(0,sortByCheck);
         } else {
             pageRequest = createPageRequest(page,sortByCheck);
 
         }
-        return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, searchByCheck, pageRequest).getContent().stream().map(mapper::map).toList();
+        return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, searchByCheck, pageRequest)
+                .getContent().stream().map(mapper::map).toList();
 
     }
 
