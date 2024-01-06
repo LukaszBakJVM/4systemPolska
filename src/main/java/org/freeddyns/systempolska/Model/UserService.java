@@ -9,7 +9,8 @@ import org.freeddyns.systempolska.Model.Dto.WriteUserDto;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.core.publisher.Flux;
+
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -32,12 +33,14 @@ public class UserService {
         this.columnName = columnName;
     }
 
-    Flux<WriteUserDto> writeUserToDatabase(MultipartFile file) {
+    public Mono<List<WriteUserDto>> writeUserToDatabase(MultipartFile file) {
         try (Reader reader = new InputStreamReader(file.getInputStream())) {
             List<WriteUserDto> writeUserDto = readUserDtoFromXml(reader);
             List<Users> users = writeUserDto.stream().map(mapper::map).toList();
             repository.saveAll(users);
-            return Flux.fromIterable(writeUserDto);
+
+
+            return Mono.just(writeUserDto);
 
         } catch (IOException e) {
             throw new WrongFileFormatException();
