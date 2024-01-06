@@ -3,7 +3,7 @@ package org.freeddyns.systempolska.Model;
 
 import org.springframework.data.domain.Page;
 
-import org.springframework.data.domain.PageRequest;
+
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.jpa.repository.Query;
@@ -14,12 +14,8 @@ import org.springframework.data.repository.query.Param;
 public interface UserRepository extends PagingAndSortingRepository<Users, Long> {
 
 
-    @Query("SELECT u FROM Users u ORDER BY " +
-            "CASE WHEN :sortBy = 'login' THEN u.login END, " +
-            "CASE WHEN :sortBy = 'name' THEN u.name END, " +
-            "CASE WHEN :sortBy = 'surname' THEN u.surname END, " +
-            "CASE WHEN :sortBy = 'id' THEN u.id END")
-    Page<Users> findAndSortedBy(@Param("sortBy") String sortBy, PageRequest pageable);
+
+    Page<Users> findAndSortedBy( Pageable pageable);
 
     @Query("SELECT COUNT(u) FROM Users u")
     Long countAllUsers();

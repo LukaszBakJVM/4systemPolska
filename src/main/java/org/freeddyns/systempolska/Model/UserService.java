@@ -82,14 +82,15 @@ public class UserService {
 
         String sortByCheck = convertNullToId(sortBy);
         long count = countTotalPage(repository.countAllUsers());
-        PageRequest pageRequest;
+        Pageable pageRequest;
         if (page >= count) {
-            pageRequest = PageRequest.of(0, PAGE_SIZE);
+
+            pageRequest = createPageRequest(0,sortByCheck);
         } else {
-            pageRequest = PageRequest.of(page, PAGE_SIZE);
+            pageRequest = createPageRequest(page,sortByCheck);
 
         }
-        return repository.findAndSortedBy(sortByCheck, pageRequest).stream().map(mapper::map).toList();
+        return repository.findAndSortedBy( pageRequest).stream().map(mapper::map).toList();
     }
 
     Set<String> columnNames() {
