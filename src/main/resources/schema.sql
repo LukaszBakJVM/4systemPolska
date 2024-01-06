@@ -1,25 +1,29 @@
-CREATE SCHEMA IF NOT EXISTS systemPolska;
+CREATE SCHEMA systemPolska;
 
 
 
-CREATE TABLE IF NOT EXISTS users
+
+
+
+
+CREATE TABLE users
 (
     id
-    BIGINT
-    PRIMARY
-    KEY
-    AUTO_INCREMENT,
+            BIGINT
+        PRIMARY
+            KEY
+        AUTO_INCREMENT,
     name
-    VARCHAR
-(
-    255
-),
+            VARCHAR
+                (
+                255
+                ),
     surname VARCHAR
-(
-    255
-),
+                (
+                255
+                ),
     login VARCHAR
-(
-    255
-)
-    );
+                (
+                255
+                )
+);
