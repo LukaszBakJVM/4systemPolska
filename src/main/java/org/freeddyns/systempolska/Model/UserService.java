@@ -59,7 +59,8 @@ public class UserService {
         return xmlMapper.readValue(reader, typeReference);
     }
 
-    public List<ReadUserDto> getUsersWithPaginationAndSortingAndSearch(String searchKeyword, String searchBy, String sortBy, int page) {
+    public List<ReadUserDto> getUsersWithPaginationAndSortingAndSearch(String searchKeyword, String searchBy,
+                                                                       String sortBy, int page) {
 
 
         String searchByCheck = convertNullToId(searchBy);
