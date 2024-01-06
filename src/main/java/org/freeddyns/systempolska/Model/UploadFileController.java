@@ -25,10 +25,7 @@ public class UploadFileController {
     @PostMapping("/upload")
     public Mono<ResponseEntity<Map<String, Object>>> uploadUsers(@RequestParam("file") MultipartFile file) {
         return   service.writeUserToDatabase(file).map(writeUserDto -> { long numberOfEntries =writeUserDto.size();
-
-
-
-                Map<String, Object> response = new HashMap<>();
+            Map<String, Object> response = new HashMap<>();
             response.put("message", numberOfEntries + " entries added.");
             return ResponseEntity.ok(response);
         });
