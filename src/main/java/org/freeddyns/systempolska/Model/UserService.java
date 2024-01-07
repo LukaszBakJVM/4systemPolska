@@ -27,7 +27,7 @@ public class UserService {
     private final UserRepository repository;
     private final UserMapper mapper;
     private final ColumnName columnName;
-    private final int PAGE_SIZE = 2;
+    private final int PAGE_SIZE = 20;
 
     public UserService(UserRepository repository, UserMapper mapper, ColumnName columnName) {
         this.repository = repository;
