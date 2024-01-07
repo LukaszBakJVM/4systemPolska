@@ -1,4 +1,4 @@
-CREATE SCHEMA systemPolska;
+CREATE SCHEMA systempolska;
 
 
 
