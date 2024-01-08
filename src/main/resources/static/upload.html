@@ -31,7 +31,18 @@
             method: 'POST',
             body: formData
         })
-            .then(response => response.json())
+            .then(response => {
+
+                const isJsonResponse = response.headers.get('content-type')?.includes('application/json');
+
+
+                if (isJsonResponse) {
+                    return response.json();
+                } else {
+
+                    return response.text().then(text => ({ message: text }));
+                }
+            })
             .then(data => {
                 document.getElementById('uploadMessage').innerText = data.message;
                 document.getElementById('fileInputLabel').innerText = "Choose file";
