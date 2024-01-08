@@ -1,7 +1,7 @@
 package org.freeddyns.systempolska;
 
 import jakarta.persistence.Column;
-import org.freeddyns.systempolska.Model.Users;
+import org.freeddyns.systempolska.User.Users;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;

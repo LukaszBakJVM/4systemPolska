@@ -1,10 +1,19 @@
-package org.freeddyns.systempolska.Model.Dto;
+package org.freeddyns.systempolska.User.Model.Dto;
 
-public class ReadUserDto {
+public class WriteUserDto {
+    private String name;
     private String surname;
     private String login;
 
-    public ReadUserDto() {
+    public WriteUserDto() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSurname() {
@@ -21,13 +30,5 @@ public class ReadUserDto {
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    @Override
-    public String toString() {
-        return "ReadUserDto{" +
-                "surname='" + surname + '\'' +
-                ", login='" + login + '\'' +
-                '}';
     }
 }

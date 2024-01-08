@@ -1,11 +1,11 @@
-package org.freeddyns.systempolska.Model;
+package org.freeddyns.systempolska.User;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.freeddyns.systempolska.ColumnName;
 import org.freeddyns.systempolska.Exception.WrongFileFormatException;
-import org.freeddyns.systempolska.Model.Dto.ReadUserDto;
-import org.freeddyns.systempolska.Model.Dto.WriteUserDto;
+import org.freeddyns.systempolska.User.Model.Dto.ReadUserDto;
+import org.freeddyns.systempolska.User.Model.Dto.WriteUserDto;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -45,7 +45,7 @@ public class UserService {
             return Mono.just(writeUserDto);
 
         } catch (IOException e) {
-            throw new WrongFileFormatException();
+            throw new WrongFileFormatException("Wrong File Format");
         }
 
 

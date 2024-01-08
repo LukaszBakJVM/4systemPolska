@@ -1,6 +1,6 @@
-package org.freeddyns.systempolska.Model;
+package org.freeddyns.systempolska.User;
 
-import org.freeddyns.systempolska.Model.Dto.ReadUserDto;
+import org.freeddyns.systempolska.User.Model.Dto.ReadUserDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
