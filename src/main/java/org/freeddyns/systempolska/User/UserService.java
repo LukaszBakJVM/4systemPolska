@@ -111,20 +111,8 @@ public class UserService {
         return (numberOfEntries + PAGE_SIZE - 1) / PAGE_SIZE;
     }
 
-    private Pageable createPageRequest(int page, String sortBy) {
-        Sort.Order order;
-        if ("login".equals(sortBy)) {
-            order = Sort.Order.by("login");
-        } else if ("name".equals(sortBy)) {
-            order = Sort.Order.by("name");
-        } else if ("surname".equals(sortBy)) {
-            order = Sort.Order.by("surname");
-        } else {
-
-            order = Sort.Order.by("id");
-
-        }
-
+    private Pageable createPageRequest(int page,  String sortBy) {
+        Sort.Order order = Sort.Order.by(sortBy);
 
         return PageRequest.of(page, PAGE_SIZE, Sort.by(order));
     }
