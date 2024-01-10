@@ -24,13 +24,13 @@ public class UserController {
                                                      @RequestParam(required = false) String searchBy,
                                                      @RequestParam(required = false) String sortBy,
                                                      @RequestParam(defaultValue = "0") int page) {
-        if (searchKeyword == null || searchKeyword.equals("null")) {
-            return ResponseEntity.ok(service.getUsersWithPaginationAndSorting(sortBy, page));
+
+            return ResponseEntity.ok(service.connectionToController(searchKeyword,searchBy,sortBy,page));
         }
 
 
-        return ResponseEntity.ok(service.getUsersWithPaginationAndSortingAndSearch(searchKeyword, searchBy, sortBy, page));
-    }
+
+
 
     @GetMapping("/columns")
     Set<String> names() {

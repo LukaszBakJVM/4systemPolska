@@ -35,7 +35,8 @@ public class UserService {
         this.columnName = columnName;
     }
 
-    public Mono<List<WriteUserDto>> writeUserToDatabase(MultipartFile file) {
+
+     Mono<List<WriteUserDto>> writeUserToDatabase(MultipartFile file) {
         try (Reader reader = new InputStreamReader(file.getInputStream())) {
             List<WriteUserDto> writeUserDto = readUserDtoFromXml(reader);
             List<Users> users = writeUserDto.stream().map(mapper::map).toList();
@@ -59,7 +60,16 @@ public class UserService {
         return xmlMapper.readValue(reader, typeReference);
     }
 
-    public List<ReadUserDto> getUsersWithPaginationAndSortingAndSearch(String searchKeyword, String searchBy,
+    List<ReadUserDto>connectionToController(String searchKeyword, String searchBy,
+                                        String sortBy, int page){
+        if (searchKeyword == null || searchKeyword.equals("null")) {
+            return getUsersWithPaginationAndSorting(sortBy,page);
+        }
+        return getUsersWithPaginationAndSortingAndSearch(searchKeyword, searchBy, sortBy, page);
+
+    }
+
+  private   List<ReadUserDto> getUsersWithPaginationAndSortingAndSearch(String searchKeyword, String searchBy,
                                                                        String sortBy, int page) {
 
 
@@ -82,7 +92,7 @@ public class UserService {
 
     }
 
-    List<ReadUserDto> getUsersWithPaginationAndSorting(String sortBy, int page) {
+  private   List<ReadUserDto> getUsersWithPaginationAndSorting(String sortBy, int page) {
 
         String sortByCheck = convertNullToId(sortBy);
         long count = countTotalPage(repository.countAllUsers());
