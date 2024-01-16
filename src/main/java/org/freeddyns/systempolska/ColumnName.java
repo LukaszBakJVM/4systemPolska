@@ -14,11 +14,12 @@ public class ColumnName {
 
 
     public Set<String> getAllColumnNames(Class<Users> entityClass) {
-        Field[] fields = entityClass.getDeclaredFields();
+      return    Arrays.stream(entityClass.getDeclaredFields())
+              .filter(fields->fields.isAnnotationPresent(Column.class))
+              .map(Field::getName)
+              .collect(Collectors.toSet());
 
-        return Arrays.stream(fields)
-                .filter(field -> field.isAnnotationPresent(Column.class))
-                .map(Field::getName).collect(Collectors.toSet());
+
     }
 
 }
