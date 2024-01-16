@@ -18,11 +18,7 @@ public class ColumnName {
 
         return Arrays.stream(fields)
                 .filter(field -> field.isAnnotationPresent(Column.class))
-                .map(field -> {
-                    Column columnAnnotation = field.getAnnotation(Column.class);
-                    return columnAnnotation.name();
-                })
-                .collect(Collectors.toSet());
+                .map(Field::getName).collect(Collectors.toSet());
     }
 
 }
