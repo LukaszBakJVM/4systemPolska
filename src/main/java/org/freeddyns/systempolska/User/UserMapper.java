@@ -29,10 +29,8 @@ public class UserMapper {
         String name = users.getName();
         String hash = nameEncoder.encode(name);
         String surname = users.getSurname();
-        str.append(surname);
-        str.append("_");
-        str.append(hash);
-        dto.setSurname(str.toString());
+        String loginHash = str.append(surname).append("_").append(hash).toString();
+        dto.setSurname(loginHash);
         str.setLength(0);
         dto.setLogin(users.getLogin());
 
