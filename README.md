@@ -2,32 +2,15 @@
    Wczytuje liste uzytkowników w foraacie xml 
    ----------------------------------------------------------------------
    Przykładowy xml;
-
-#   <users>
-      
-#<user>
-   
-#<name>name1</name>
-
-#<surname>surname1</surname>
-
-#<login>login1</login>
-
-#</user>
-
-#…
-
-<user>
-   
-<name>nameN</name>
-
-<surname>surnameN</surname>
-
-<login>loginN</login>
-
-</user>
-
-</users>
+#######################################
+#   <users>                            #
+#<user>                               #
+ #<name>name1</name>#
+#<surname>surname1</surname>#
+#<login>login1</login>#
+#</user>#
+#</users>#
+######################################
 
 ---------------------------------------------------------------
 
