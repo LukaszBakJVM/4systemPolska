@@ -3,19 +3,19 @@
    ----------------------------------------------------------------------
    Przykładowy xml;
 
-   <users>
+#   <users>
       
-<user>
+#<user>
    
-<name>name1</name>
+#<name>name1</name>
 
-<surname>surname1</surname>
+#<surname>surname1</surname>
 
-<login>login1</login>
+#<login>login1</login>
 
-</user>
+#</user>
 
-…
+#…
 
 <user>
    
