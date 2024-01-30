@@ -16,7 +16,7 @@
 
 @GetMapping
 
-localhost:8080/user
+/user
 
 RequestParam required = false String searchKeyword 
 
