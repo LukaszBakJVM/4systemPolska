@@ -2,6 +2,7 @@
    Wczytuje liste uzytkowników w foraacie xml 
    ----------------------------------------------------------------------
    Przykładowy xml;
+   --------------------------------------------------------
    <users>
 <user>
 <name>name1</name>
