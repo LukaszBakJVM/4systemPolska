@@ -1,5 +1,6 @@
    @PostMapping("/upload")
    Wczytuje liste uzytkowników w foraacie xml 
+   ----------------------------------------------------------------------
    Przykładowy xml;
    <users>
 <user>
@@ -15,6 +16,13 @@
 </user>
 </users>
 ------------------------------------------------------------------
+@GetMapping
+localhost:8080/user
+RequestParam required = false String searchKeyword 
+RequestParam required = false  String searchBy  --> defualt id
+RequestParam  required = false  String sortBy --> defualt id
+RequestParam required = false  int page  --> defualt 0
+--------------------------------------------------------------
  1: W przypadku gdy tabele Search Keyword:   jest pusta tabela Select Column:   nie jest brana pod uwagę   i wyszukuje wszystkich użytkowników posortowanych na podstawie Sort By
  (które domyslnie sortuje na podstawie id) a po wybraniu sort by sortuje na podstawie wybranego parametru.
 
