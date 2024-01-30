@@ -17,6 +17,7 @@
 </user>
 </users>
 ------------------------------------------------------------------
+
 @GetMapping
 localhost:8080/user
 RequestParam required = false String searchKeyword 
