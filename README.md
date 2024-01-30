@@ -1,5 +1,5 @@
    @PostMapping("/upload")
-   Wczytuje liste uzytkowników w foraacie xml 
+   Wczytuje liste uzytkowników w formacie xml 
    ----------------------------------------------------------------------
    Przykładowy xml;
 #########################################
