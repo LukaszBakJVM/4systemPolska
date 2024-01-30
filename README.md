@@ -2,9 +2,8 @@
    Wczytuje liste uzytkowników w foraacie xml 
    ----------------------------------------------------------------------
    Przykładowy xml;
-   --------------------------------------------------------
-   --------------------------------------------------------
-   <users>
+
+ #  <users>
 <user>
 <name>name1</name>
 <surname>surname1</surname>
@@ -16,9 +15,8 @@
 <surname>surnameN</surname>
 <login>loginN</login>
 </user>
-</users>
-------------------------------------------------------------------
----------------------------------------------------------------
+#</users>
+
 
 @GetMapping
 localhost:8080/user
