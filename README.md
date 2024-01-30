@@ -3,27 +3,46 @@
    ----------------------------------------------------------------------
    Przykładowy xml;
 
- #  <users>
+   <users>
+      
 <user>
+   
 <name>name1</name>
-<surname>surname1</surname>
-<login>login1</login>
-</user>
-…
-<user>
-<name>nameN</name>
-<surname>surnameN</surname>
-<login>loginN</login>
-</user>
-#</users>
 
+<surname>surname1</surname>
+
+<login>login1</login>
+
+</user>
+
+…
+
+<user>
+   
+<name>nameN</name>
+
+<surname>surnameN</surname>
+
+<login>loginN</login>
+
+</user>
+
+</users>
+
+---------------------------------------------------------------
 
 @GetMapping
+
 localhost:8080/user
+
 RequestParam required = false String searchKeyword 
+
 RequestParam required = false  String searchBy  --> defualt id
+
 RequestParam  required = false  String sortBy --> defualt id
+
 RequestParam required = false  int page  --> defualt 0
+
 --------------------------------------------------------------
  1: W przypadku gdy tabele Search Keyword:   jest pusta tabela Select Column:   nie jest brana pod uwagę   i wyszukuje wszystkich użytkowników posortowanych na podstawie Sort By
  (które domyslnie sortuje na podstawie id) a po wybraniu sort by sortuje na podstawie wybranego parametru.
