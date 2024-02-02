@@ -2,16 +2,14 @@
    Wczytuje liste uzytkowników w formacie xml 
    ----------------------------------------------------------------------
    Przykładowy xml;
-#########################################
+
  <users>                               #
  <user>                                #
  <name>name1</name>                    #
  <surname>surname1</surname>           #
  <login>login1</login>                 #
  </user>                               #
- </users>                              #
-#########################################
-
+ </users> 
 ---------------------------------------------------------------
 
 @GetMapping
