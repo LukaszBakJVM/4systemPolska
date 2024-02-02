@@ -3,11 +3,13 @@
    ----------------------------------------------------------------------
    Przykładowy xml;
 
- users                              
- user                                
- name                 
- surname         
- login             
+````<users>
+    <user>
+        <name>name1</name>
+        <surname>surname1</surname>
+        <login>login1</login>
+    </user>
+</users>````           
 
 ---------------------------------------------------------------
 
