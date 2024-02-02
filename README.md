@@ -3,7 +3,8 @@
    ----------------------------------------------------------------------
    Przykładowy xml;
 
-````<users>
+````
+<users>
     <user>
         <name>name1</name>
         <surname>surname1</surname>
