@@ -1,4 +1,4 @@
-systempolska.freeddns.org  -->aplikacja  uruchomiona  w Docker Container
+https://systempolska.freeddns.org      -->aplikacja  uruchomiona  w Docker Container, proxy nginx
    
    
    
