@@ -59,6 +59,7 @@ FROM   openjdk:21-slim-bookworm
 EXPOSE 8080
 
 COPY /jar/systemPolska-*.jar /systemPolska.jar
+
 ENTRYPOINT ["java","-jar","/systemPolska.jar"]
   
 
