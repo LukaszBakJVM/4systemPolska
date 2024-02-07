@@ -1,3 +1,7 @@
+systempolska.freeddns.org  -->aplikacja  uruchomiona  w Docker Container
+   
+   
+   
    @PostMapping("/upload")
    Wczytuje liste uzytkowników w formacie xml 
    ----------------------------------------------------------------------
