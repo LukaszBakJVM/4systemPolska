@@ -3,7 +3,7 @@ https://systempolska.freeddns.org      -->aplikacja  uruchomiona  w Docker Conta
    
    
    @PostMapping("/upload")
-   Wczytuje liste uzytkowników w formacie xml 
+   Wczytuje liste uzytkowników w formacie xml i zapisuje do bazy danych.
    ----------------------------------------------------------------------
    Przykładowy xml;
 
