@@ -1,8 +1,8 @@
-package org.freeddyns.systempolska.User;
+package org.freeddyns.systempolska.user;
 
-import org.freeddyns.systempolska.Configuration.NameEncoder;
-import org.freeddyns.systempolska.User.Model.Dto.ReadUserDto;
-import org.freeddyns.systempolska.User.Model.Dto.WriteUserDto;
+import org.freeddyns.systempolska.configuration.NameEncoder;
+import org.freeddyns.systempolska.user.Model.dto.ReadUserDto;
+import org.freeddyns.systempolska.user.Model.dto.WriteUserDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,24 +17,23 @@ public class UserMapper {
 
     Users map(WriteUserDto dto) {
         Users user = new Users();
-        user.setName(dto.getName());
-        user.setSurname(dto.getSurname());
-        user.setLogin(dto.getLogin());
+        user.setName(dto.name());
+        user.setSurname(dto.surname());
+        user.setLogin(dto.login());
 
         return user;
     }
 
     ReadUserDto map(Users users) {
-        ReadUserDto dto = new ReadUserDto();
+        str.setLength(0);
+
         String name = users.getName();
         String hash = nameEncoder.encode(name);
         String surname = users.getSurname();
         String loginHash = str.append(surname).append("_").append(hash).toString();
-        dto.setSurname(loginHash);
-        str.setLength(0);
-        dto.setLogin(users.getLogin());
 
-        return dto;
+
+        return new ReadUserDto(loginHash, users.getLogin());
 
     }
 }

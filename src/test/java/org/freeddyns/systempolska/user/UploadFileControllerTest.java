@@ -1,7 +1,7 @@
-package org.freeddyns.systempolska.User;
+package org.freeddyns.systempolska.user;
 
 import org.freeddyns.systempolska.Application;
-import org.freeddyns.systempolska.Exception.WrongFileFormatException;
+import org.freeddyns.systempolska.exception.WrongFileFormatException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

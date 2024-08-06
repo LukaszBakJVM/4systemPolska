@@ -1,4 +1,4 @@
-package org.freeddyns.systempolska.User;
+package org.freeddyns.systempolska.user;
 
 
 import org.springframework.data.domain.Page;

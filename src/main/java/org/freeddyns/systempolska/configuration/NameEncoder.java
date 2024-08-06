@@ -1,4 +1,4 @@
-package org.freeddyns.systempolska.Configuration;
+package org.freeddyns.systempolska.configuration;
 
 import org.springframework.context.annotation.Configuration;
 
@@ -27,7 +27,7 @@ public class NameEncoder {
 
             return stringBuilder.toString();
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Błąd podczas kodowania hasła", e);
+            throw new RuntimeException("Error encoding password", e);
         }
     }
 }

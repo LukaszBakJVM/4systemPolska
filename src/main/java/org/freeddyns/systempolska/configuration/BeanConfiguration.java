@@ -1,11 +1,12 @@
-package org.freeddyns.systempolska.Configuration;
+package org.freeddyns.systempolska.configuration;
 
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 
-@org.springframework.context.annotation.Configuration
-public class Configuration {
+@Configuration
+public class BeanConfiguration {
 
     @Bean
     NameEncoder nameEncoder() {

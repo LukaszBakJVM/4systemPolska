@@ -1,18 +1,17 @@
-package org.freeddyns.systempolska.User;
+package org.freeddyns.systempolska.user;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.freeddyns.systempolska.ColumnName;
-import org.freeddyns.systempolska.Exception.WrongFileFormatException;
-import org.freeddyns.systempolska.User.Model.Dto.ReadUserDto;
-import org.freeddyns.systempolska.User.Model.Dto.WriteUserDto;
+import org.freeddyns.systempolska.exception.WrongFileFormatException;
+import org.freeddyns.systempolska.user.Model.dto.ReadUserDto;
+import org.freeddyns.systempolska.user.Model.dto.WriteUserDto;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -35,9 +34,10 @@ public class UserService {
         this.mapper = mapper;
         this.columnName = columnName;
     }
-@Transactional
 
-     Mono<List<WriteUserDto>> writeUserToDatabase(MultipartFile file) {
+    @Transactional
+
+    public Mono<List<WriteUserDto>> writeUserToDatabase(MultipartFile file) {
         try (Reader reader = new InputStreamReader(file.getInputStream())) {
             List<WriteUserDto> writeUserDto = readUserDtoFromXml(reader);
             List<Users> users = writeUserDto.stream().map(mapper::map).toList();
@@ -61,17 +61,15 @@ public class UserService {
         return xmlMapper.readValue(reader, typeReference);
     }
 
-    List<ReadUserDto>connectionToController(String searchKeyword, String searchBy,
-                                        String sortBy, int page){
+    List<ReadUserDto> connectionToController(String searchKeyword, String searchBy, String sortBy, int page) {
         if (searchKeyword == null || searchKeyword.equals("null")) {
-            return getUsersWithPaginationAndSorting(sortBy,page);
+            return getUsersWithPaginationAndSorting(sortBy, page);
         }
         return getUsersWithPaginationAndSortingAndSearch(searchKeyword, searchBy, sortBy, page);
 
     }
 
-  private   List<ReadUserDto> getUsersWithPaginationAndSortingAndSearch(String searchKeyword, String searchBy,
-                                                                       String sortBy, int page) {
+    private List<ReadUserDto> getUsersWithPaginationAndSortingAndSearch(String searchKeyword, String searchBy, String sortBy, int page) {
 
 
         String searchByCheck = convertNullToId(searchBy);
@@ -83,29 +81,28 @@ public class UserService {
         long count = countTotalPage(repository.countByColumnAndSearchKeyword(searchKeyword, searchByCheck));
 
         if (page >= count) {
-         pageRequest =  createPageRequest(0,sortByCheck);
+            pageRequest = createPageRequest(0, sortByCheck);
         } else {
-            pageRequest = createPageRequest(page,sortByCheck);
+            pageRequest = createPageRequest(page, sortByCheck);
 
         }
-        return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, searchByCheck, pageRequest)
-                .getContent().stream().map(mapper::map).toList();
+        return repository.findAllWithPaginationAndSortingAndSearch(searchKeyword, searchByCheck, pageRequest).getContent().stream().map(mapper::map).toList();
 
     }
 
-  private   List<ReadUserDto> getUsersWithPaginationAndSorting(String sortBy, int page) {
+    private List<ReadUserDto> getUsersWithPaginationAndSorting(String sortBy, int page) {
 
         String sortByCheck = convertNullToId(sortBy);
         long count = countTotalPage(repository.countAllUsers());
         Pageable pageRequest;
         if (page >= count) {
 
-            pageRequest = createPageRequest(0,sortByCheck);
+            pageRequest = createPageRequest(0, sortByCheck);
         } else {
-            pageRequest = createPageRequest(page,sortByCheck);
+            pageRequest = createPageRequest(page, sortByCheck);
 
         }
-        return repository.findAndSortedBy( pageRequest).stream().map(mapper::map).toList();
+        return repository.findAndSortedBy(pageRequest).stream().map(mapper::map).toList();
     }
 
     Set<String> columnNames() {
@@ -122,7 +119,7 @@ public class UserService {
         return (numberOfEntries + PAGE_SIZE - 1) / PAGE_SIZE;
     }
 
-    private Pageable createPageRequest(int page,  String sortBy) {
+    private Pageable createPageRequest(int page, String sortBy) {
         Sort.Order order = Sort.Order.by(sortBy);
 
         return PageRequest.of(page, PAGE_SIZE, Sort.by(order));

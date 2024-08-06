@@ -1,4 +1,4 @@
-package org.freeddyns.systempolska.Exception;
+package org.freeddyns.systempolska.exception;
 
 
 
