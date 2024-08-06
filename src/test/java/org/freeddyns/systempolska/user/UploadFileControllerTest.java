@@ -40,13 +40,14 @@ class UploadFileControllerTest {
     }
     @Test
     void uploadUsersFile() throws Exception {
-        String xmlContent = "<users>\n" +
-                "    <user>\n" +
-                "        <name>Walton</name>\n" +
-                "        <surname>Alven</surname>\n" +
-                "        <login>walven0@rakuten.co.jp</login>\n" +
-                "    </user>\n" +
-                "</users>";
+        String xmlContent = """
+                <users>
+                    <user>
+                        <name>Walton</name>
+                        <surname>Alven</surname>
+                        <login>walven0@rakuten.co.jp</login>
+                    </user>
+                </users>""";
 
         MockMultipartFile file = new MockMultipartFile("file", "test.xml", MediaType.TEXT_XML_VALUE, xmlContent.getBytes(StandardCharsets.UTF_8));
 
